@@ -30,3 +30,4 @@
     enabled: true
   tags:
     - run
+  when: ansible_os_family != 'Darwin'

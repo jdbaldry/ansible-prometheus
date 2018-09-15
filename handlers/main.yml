@@ -5,9 +5,12 @@
     daemon_reload: true
     name: prometheus
     state: restarted
+  when: ansible_os_family != 'Darwin'
+
 
 - name: reload prometheus
   become: true
   systemd:
     name: prometheus
     state: reloaded
+  when: ansible_os_family != 'Darwin'
