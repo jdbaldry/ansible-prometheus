@@ -104,6 +104,18 @@
     - restart prometheus
   when: ansible_os_family != 'Darwin'
 
+- name: create launchd plist
+  become: true
+  template:
+    src: prometheus.plist.j2
+    dest: /Library/LaunchDaemons/prometheus.plist
+    owner: root
+    group: 0
+    mode: 0644
+  notify:
+    - restart prometheus
+  when: ansible_os_family == 'Darwin'
+
 - name: Install SELinux dependencies
   package:
     name: "{{ item }}"

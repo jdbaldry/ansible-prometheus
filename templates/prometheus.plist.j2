@@ -1,0 +1,41 @@
+<!-- {{ ansible_managed }} -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>User</key>
+    <string>prometheus</string>
+
+    <key>Group</key>
+    <string>prometheus</string>
+
+    <key>Label</key>
+    <string>io.prometheus.prometheus</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/prometheus</string>
+        <string>--config.file={{ prometheus_config_dir }}/prometheus.yml</string>
+        <string>--storage.tsdb.path={{ prometheus_db_dir }}</string>
+        <string>--storage.tsdb.retention={{ prometheus_storage_retention }}</string>
+        <string>--web.console.libraries={{ prometheus_config_dir }}/console_libraries</string>
+        <string>--web.console.templates={{ prometheus_config_dir }}/consoles</string>
+        <string>--web.listen-address={{ prometheus_web_listen_address }}</string>
+        <string>--web.external-url={{ prometheus_web_external_url }}{% for flag, flag_value in prometheus_config_flags_extra.items() %}</string>
+        <string>--{{ flag }}{% if flag_value %}={{ flag_value }}{% endif %} {% endfor %}</string>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>/var/log/prometheus.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/var/log/prometheus.log</string>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+	  <true/>
+
+</dict>
+</plist>

@@ -1,16 +1,22 @@
 ---
-- name: restart prometheus
+- name: "[linux] restart prometheus"
   become: true
   systemd:
     daemon_reload: true
     name: prometheus
     state: restarted
+  listen: restart prometheus
   when: ansible_os_family != 'Darwin'
 
-
-- name: reload prometheus
+- name: "[linux] reload prometheus"
   become: true
   systemd:
     name: prometheus
     state: reloaded
+  when: ansible_os_family != 'Darwin'
+
+- name: "[darwin] restart prometheus"
+  become: true
+  command: launchctl unload prometheus; launchctl load prometheus
+  listen: restart prometheus
   when: ansible_os_family != 'Darwin'
