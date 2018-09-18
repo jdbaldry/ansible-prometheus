@@ -17,6 +17,6 @@
 
 - name: "[darwin] restart prometheus"
   become: true
-  command: launchctl unload prometheus; launchctl load prometheus
+  command: launchctl unload /Library/LaunchDaemons/prometheus.plist; launchctl load /Library/LaunchDaemons/prometheus.plist
   listen: restart prometheus
-  when: ansible_os_family != 'Darwin'
+  when: ansible_os_family == 'Darwin'
